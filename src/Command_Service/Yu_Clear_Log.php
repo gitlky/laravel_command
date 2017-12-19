@@ -1,7 +1,7 @@
 <?php
 /**
- * Created by IntelliJ IDEA.
- * User: yu
+ * Created by Lky_Vendor..
+ * User: Yu
  * Date: 2017/12/19
  * Time: 下午11:06
  */
@@ -10,7 +10,9 @@ namespace lky_vendor\laravel_command\Command_Service;
 
 use Illuminate\Console\Command;
 use File;
-
+/**
+清除缓存
+ **/
 class Yu_Clear_Log extends Yu
 {
     protected $signature = 'yu:clslog';

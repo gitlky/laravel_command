@@ -4,6 +4,7 @@ namespace lky_vendor\laravel_command;
 
 use Illuminate\Support\ServiceProvider;
 use lky_vendor\laravel_command\Command_Service\Yu_Clear_Log;
+use lky_vendor\laravel_command\Command_Service\Yu_Ctrl;
 use lky_vendor\laravel_command\Command_Service\Yu_Db;
 
 class laravel_commandServiceProvider extends ServiceProvider
@@ -30,6 +31,7 @@ class laravel_commandServiceProvider extends ServiceProvider
         $this->commands(array(
             Yu_Db::class,
             Yu_Clear_Log::class,
+            Yu_Ctrl::class
         ));
 
         $this->mergeConfigFrom(
