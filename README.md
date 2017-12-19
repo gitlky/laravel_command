@@ -5,7 +5,7 @@
 使用 Composer
 
 ``` bash
-composer require "lky_vendor/laravel_command:model"
+composer require "lky_vendor/laravel_command:dev-master"
 ```
 
 ## 使用前的配置
