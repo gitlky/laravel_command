@@ -5,7 +5,7 @@
 使用 Composer
 
 ``` bash
-$ composer require "lky_vendor/laravel_command:0.0.1"
+$ composer require "lky_vendor/laravel_command:dev-master"
 ```
 
 ## 使用前的配置
@@ -17,7 +17,7 @@ lky_vendor\laravel_command\laravel_commandServiceProvider::class,
 ## 配置
 安装后请务必执行以下命令:
 ``` php
-php artisan vendor:publish
+php artisan vendor:publish --provider="lky_vendor\laravel_command\laravel_commandServiceProvider" --tag="config"
 ```
 ## 使用
 

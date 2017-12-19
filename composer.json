@@ -6,7 +6,6 @@
         "lky_vendor",
         "laravel_command"
     ],
-    "version": "0.0.1",
     "homepage": "https://github.com/lky_vendor/laravel_command",
     "license": "MIT",
     "authors": [
@@ -43,7 +42,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.0.1-dev"
+            "dev-master": "1.0-dev"
         }
     },
     "config": {
