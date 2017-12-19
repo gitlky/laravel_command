@@ -34,10 +34,10 @@ class Yu_Db extends Command
         $i = 0;
         foreach ($data as $d) {
             $file_name = $d->table_name;
-            $file_path = app_path($this->models.'/'.$file_name.'.php');
+            $file_name_for_file = str_replace(config('database.connections.mysql.prefix'),"",$file_name);
+            $file_path = app_path($this->models.'/'.$file_name_for_file.'.php');
             if (!File::exists($file_path)) {
                 $sql_for_tab = "select * from information_schema.columns where table_schema = '$db' and table_name = '$file_name' ;";
-                $file_name = str_replace(config('database.connections.mysql.prefix'),"",$file_name);
                 $data_for_name = DB::select($sql_for_tab);
                 $field_name = "";
                 foreach ($data_for_name as $field_name_name) {
@@ -48,7 +48,7 @@ class Yu_Db extends Command
                     }
                 }
                 $field_name = substr($field_name, 0, strlen($field_name) - 1);
-                $content = $this->model_temp($file_name, $field_name);
+                $content = $this->model_temp($file_name_for_file, $field_name);
                 File::put($file_path, $content);
                 $i++;
                 $this->line($file_path ."     successful make model , now total:".$i);
