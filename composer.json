@@ -8,7 +8,6 @@
     ],
     "homepage": "https://github.com/lky_vendor/laravel_command",
     "license": "MIT",
-    "version": "1.0.1",
     "authors": [
         {
             "name": ":lky",
@@ -20,7 +19,7 @@
     "require": {
         "illuminate/support": "~5.1",
         "php" : "~5.6|~7.0",
-        "laravel/framework": "5.4.*|5.2.*|5.3.*"
+        "laravel/framework": "5.4.*|5.3.*|5.2.*"
     },
     "require-dev": {
         "phpunit/phpunit" : ">=5.4.3",
@@ -43,11 +42,10 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0.1"
+            "dev-master": "1.0.0-dev"
         }
     },
     "config": {
         "sort-packages": true
     }
-
 }
