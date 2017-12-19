@@ -13,7 +13,7 @@ use Illuminate\Console\Command;
 use DB;
 use File;
 
-class Yu_Db extends Command
+class Yu_Db extends Yu
 {
     protected $signature = 'yu:model';
     protected $description = 'make model for your project';
@@ -21,8 +21,8 @@ class Yu_Db extends Command
 
     public function handle()
     {
-        $this->models = config('lky_command.db.model_path');
-        $this->parent_model = config('lky_command.db.parent_model');
+        $this->models = $this->yu_cfg('db.model_path');
+        $this->parent_model = $this->yu_cfg('db.parent_model');
         $db = config('database.connections.mysql.database');
         $sql = "select table_name from information_schema.tables where table_schema='$db' and table_type='base table';";
         $data = DB::select($sql);
@@ -30,7 +30,7 @@ class Yu_Db extends Command
         if (!File::isDirectory($model_path)) {
             File::makeDirectory($model_path, $mode = 0777);
         }
-        $not_make = config('lky_command.db.not_make_field');
+        $not_make = $this->yu_cfg('db.not_make_field');
         $i = 0;
         foreach ($data as $d) {
             $file_name = $d->table_name;
@@ -60,7 +60,7 @@ class Yu_Db extends Command
 
     private function model_temp($name, $filed)
     {
-        $timestamps = config('lky_command.db.show_timestamps')?"":'public $timestamps = false;';
+        $timestamps = $this->yu_cfg('db.show_timestamps')?"":'public $timestamps = false;';
         $carbon = Carbon::now();
         $date = $carbon->toDateString();
         $time = $carbon->toTimeString();
