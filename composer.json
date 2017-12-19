@@ -1,7 +1,7 @@
 {
     "name": "lky_vendor/laravel_command",
     "type": "library",
-    "description": ":package_description",
+    "description": "laravel command for developer",
     "keywords": [
         "lky_vendor",
         "laravel_command"
@@ -10,9 +10,9 @@
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": ":author_email",
-            "homepage": ":author_website",
+            "name": ":lky",
+            "email": ":2747865797@qq.com",
+            "homepage": ":http://lky.kim",
             "role": "Developer"
         }
     ],
