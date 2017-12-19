@@ -20,6 +20,6 @@ class Yu_Ctrl extends Yu
         if (!File::exists($ctrl_path)){
             $this->mk_dir($ctrl_path);
         }
-        $this->line("make file successful");
+        #$this->line("make file successful");
     }
 }

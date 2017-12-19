@@ -38,7 +38,7 @@ class Yu extends Command
                 File::makeDirectory($path, $mode = 0777);
             }
         }
-        $this->line('aa:'.count(explode('.php',$old_path)));
+        $this->line('make file successful:'.count(explode('.php',$old_path)));
         $old_path = count(explode('.php',$old_path))>1?$old_path:$old_path.'.php';
         if (!File::exists($old_path)){
             File::put($old_path, $content);
