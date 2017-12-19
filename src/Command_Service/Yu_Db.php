@@ -30,7 +30,7 @@ class Yu_Db extends Command
         if (!File::isDirectory($model_path)) {
             File::makeDirectory($model_path, $mode = 0777);
         }
-        $note_make = config('lky_command.db.not_make_field');
+        $not_make = config('lky_command.db.not_make_field');
         $i = 0;
         foreach ($data as $d) {
             $file_name = $d->table_name;
@@ -39,16 +39,16 @@ class Yu_Db extends Command
             if (!File::exists($file_path)) {
                 $sql_for_tab = "select * from information_schema.columns where table_schema = '$db' and table_name = '$file_name' ;";
                 $data_for_name = DB::select($sql_for_tab);
-                $colme = "";
-                foreach ($data_for_name as $colme_name) {
-                    if (is_array($note_make)&&in_array($colme_name->COLUMN_NAME, $note_make)) {
+                $field_name = "";
+                foreach ($data_for_name as $field_name_name) {
+                    if (is_array($not_make)&&count($not_make)>0&&in_array($field_name_name->COLUMN_NAME, $not_make)) {
                         break;
                     }else{
-                        $colme .= "'" . "$colme_name->COLUMN_NAME" . "',";
+                        $field_name .= "'" . "$field_name_name->COLUMN_NAME" . "',";
                     }
                 }
-                $colme = substr($colme, 0, strlen($colme) - 1);
-                $content = $this->model_temp($file_name, $colme);
+                $field_name = substr($field_name, 0, strlen($field_name) - 1);
+                $content = $this->model_temp($file_name, $field_name);
                 File::put($file_path, $content);
                 $i++;
                 $this->line($file_path ."     successful make model , now total:".$i);
