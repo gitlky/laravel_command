@@ -17,7 +17,7 @@ lky_vendor\laravel_command\laravel_commandServiceProvider::class,
 ## 配置
 安装后请务必执行以下命令:
 ``` php
-php artisan vendor:publish --provider="lky_vendor\laravel_command\laravel_commandServiceProvider" --tag="config"
+php artisan vendor:publish --provider="lky_vendor\laravel_command\laravel_commandServiceProvider"
 ```
 ## 使用
 
