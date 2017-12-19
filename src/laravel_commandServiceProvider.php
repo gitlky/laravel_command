@@ -29,5 +29,10 @@ class laravel_commandServiceProvider extends ServiceProvider
         $this->commands(array(
             Yu_Db::class
         ));
+
+        $this->mergeConfigFrom(
+            __DIR__.'/config/lky_command.php', 'lky_command'
+        );
+
     }
 }

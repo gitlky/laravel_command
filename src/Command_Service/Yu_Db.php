@@ -16,7 +16,7 @@ use File;
 class Yu_Db extends Command
 {
     protected $signature = 'yu:model';
-    protected $description = 'make model in your project';
+    protected $description = 'make model for your project';
     private $models, $parent_model;
 
     public function handle()
@@ -34,6 +34,7 @@ class Yu_Db extends Command
         $i = 0;
         foreach ($data as $d) {
             $file_name = $d->table_name;
+            $file_name = str_replace(config('database.connections.mysql.prefix'),"",$file_name);
             $file_path = app_path($this->models.'/'.$file_name.'.php');
             if (!File::exists($file_path)) {
                 $sql_for_tab = "select * from information_schema.columns where table_schema = '$db' and table_name = '$file_name' ;";
@@ -54,12 +55,12 @@ class Yu_Db extends Command
             }
         }
         $this->line("make db model is successful! time:".Carbon::now()->toDateTimeString());
-
     }
 
 
     private function model_temp($name, $filed)
     {
+        $timestamps = config('lky_command.db.show_timestamps')?"":'public $timestamps = false;';
         $carbon = Carbon::now();
         $date = $carbon->toDateString();
         $time = $carbon->toTimeString();
@@ -75,6 +76,7 @@ namespace App\\$this->models;
 class $name extends $this->parent_model
 {
     protected \$table = '$name';
+    $timestamps
     protected \$fillable = [$filed];
 
 }";
