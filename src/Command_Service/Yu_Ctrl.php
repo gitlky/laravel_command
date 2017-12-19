@@ -11,10 +11,15 @@ namespace lky_vendor\laravel_command\Command_Service;
 
 class Yu_Ctrl extends Yu
 {
-    protected $signature = 'yu:ctrl {path:input where you wanna make controller}';
+    protected $signature = 'yu:ctrl {path : input where you wanna make controller}';
     protected $description = 'make controller for your project';
     public function handle(){
         $path = $this->argument('path');
-        $this->line($path);
+        $ctrl_path = app_path('Http/Controllers/'.$path);
+        $ctrl_path = str_replace("\\","/",$ctrl_path);
+        if (!File::exists($ctrl_path)){
+            $this->mk_dir($ctrl_path);
+        }
+        $this->line("make file successful");
     }
 }
