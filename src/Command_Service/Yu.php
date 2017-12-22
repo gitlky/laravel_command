@@ -11,8 +11,6 @@ namespace lky_vendor\laravel_command\Command_Service;
 
 use Illuminate\Console\Command;
 use File;
-
-
 class Yu extends Command
 {
     const cfg_title = "lky_command.";
@@ -31,7 +29,6 @@ class Yu extends Command
         unset($set_up[count($set_up)-1]);
         $path = "";
         foreach ($set_up as $dir){
-            #$this->line($dir);
             if(empty($dir)){
                 continue;
             }
@@ -40,10 +37,13 @@ class Yu extends Command
                 File::makeDirectory($path, $mode = 0777);
             }
         }
-        $this->line('make file successful:'.count(explode('.php',$old_path)));
         $old_path = count(explode('.php',$old_path))>1?$old_path:$old_path.'.php';
+        $this->line('make file successful:'.str_replace(base_path(),"",$old_path));
+
         if (!File::exists($old_path)){
             File::put($old_path, $content);
+        }else{
+            $this->error('file is exist');
         }
     }
 }
