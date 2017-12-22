@@ -10,6 +10,8 @@ namespace lky_vendor\laravel_command\Command_Service;
 
 
 use Illuminate\Console\Command;
+use File;
+
 
 class Yu extends Command
 {
@@ -29,7 +31,7 @@ class Yu extends Command
         unset($set_up[count($set_up)-1]);
         $path = "";
         foreach ($set_up as $dir){
-            $this->line($dir);
+            #$this->line($dir);
             if(empty($dir)){
                 continue;
             }

@@ -5,6 +5,7 @@
  * Date: 2017/12/19 0019
  * Time: 下午 3:25
  */
+
 return [
     'db'=>[
         'model_path'=>'Model',//model存放的路径
