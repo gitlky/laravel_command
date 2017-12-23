@@ -5,7 +5,6 @@
  * Date: 2017/12/19 0019
  * Time: 下午 3:25
  */
-
 return [
     'db'=>[
         'model_path'=>'Model',//model存放的路径
@@ -15,5 +14,11 @@ return [
     ],
     'cache'=>[
         'clear_cache'=>false,//在清除日志的同时是否清除cache(如果使用了cache缓存重要的数据,例如:JSSDK tickt 请慎重)
+    ],
+    'ctrl'=>[
+        //父级ctrl名称
+        'parent_controller'=>'YuController',
+        //父级ctrl引入的namespace
+        'parent_controller_name_space'=>'App\Http\Controllers\YuCtrl',
     ]
 ];
