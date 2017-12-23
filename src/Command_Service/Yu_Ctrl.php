@@ -23,6 +23,8 @@ class Yu_Ctrl extends Yu
     {
         $path = $this->argument('path');
         $this->old_path = str_replace("\\", "/", $path);
+        $this->blade();
+        return;
         $this->model_name = $this->ask("what's your model name");
         $this->model_path = app_path(config('db.model_path') . '/' . $this->model_name . '.php');
 //        if(!File::exists($model_path)){
@@ -148,5 +150,30 @@ class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
 }
 ";
         return $str;
+    }
+
+
+    private function blade(){
+        $view_path = resource_path('views/');
+        $view_path = str_replace("\\","/",$view_path);
+        $set_up = explode("/", $this->old_path);
+        $file_name = $set_up[count($set_up) - 1];
+        unset($set_up[count($set_up) - 1]);
+        $path="";
+        foreach ($set_up as $key=>$dir) {
+            if (empty($dir)) {
+                continue;
+            }
+            $path .= $dir . '/';
+            if($key<1){
+                $path = $view_path.$path;
+            }
+            if (!File::isDirectory($path)) {
+                File::makeDirectory($path, $mode = 0777);
+            }
+        }
+        if (!File::exists($view_path.$path.$file_name.'list.php')) {
+            File::put($view_path.$path.$file_name.'list.php',"");
+        }
     }
 }
