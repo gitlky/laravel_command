@@ -8,6 +8,7 @@
 
 namespace lky_vendor\laravel_command\Command_Service;
 
+use Carbon\Carbon;
 use File;
 
 class Yu_Ctrl extends Yu
@@ -75,7 +76,9 @@ class Yu_Ctrl extends Yu
 
     private function ctrl_temp()
     {
-
+        $carbon = Carbon::now();
+        $date = $carbon->toDateString();
+        $time = $carbon->toTimeString();
         $use = "use " . $this->yu_cfg('db.model_path') . '\\' . $this->model_name . ';
         ';
         $use .= "use Illuminate\Http\Request;";
@@ -85,6 +88,14 @@ class Yu_Ctrl extends Yu
         ";
         }
         $str = "<?php
+        
+        /**
+ * Created by lky_command.
+ * User: Yu
+ * Date: $date
+ * Time: $time
+ */
+ 
 namespace $this->ctrl_namespace;
 $use
 class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
