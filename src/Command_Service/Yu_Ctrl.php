@@ -24,7 +24,7 @@ class Yu_Ctrl extends Yu
         $path = $this->argument('path');
         $this->old_path = str_replace("\\", "/", $path);
         $this->blade();
-        return;
+        #return;
         $this->model_name = $this->ask("what's your model name");
         $this->model_path = app_path(config('db.model_path') . '/' . $this->model_name . '.php');
 //        if(!File::exists($model_path)){
@@ -64,7 +64,7 @@ class Yu_Ctrl extends Yu
                 File::makeDirectory($path, $mode = 0777);
             }
         }
-        $this->ctrl_namespace = "App\Http\Controllers\\" .str_replace(str_replace("/", "\\",app_path('Http/Controllers/')),"", str_replace("/", "\\", substr($path, 0, strlen($path) - 1)));
+        $this->ctrl_namespace = "App\\Http\\Controllers\\" .str_replace(str_replace("/", "\\",app_path('Http/Controllers/')),"", str_replace("/", "\\", substr($path, 0, strlen($path) - 1)));
         $old_path = count(explode('.php', $old_path)) > 1 ? $old_path : $old_path . '.php';
         $this->line('make file successful:' . $this->ctrl_namespace );
         if (!File::exists($old_path)) {
@@ -83,7 +83,7 @@ class Yu_Ctrl extends Yu
         $time = $carbon->toTimeString();
         $use = "use " . $this->yu_cfg('db.model_path') . '\\' . $this->model_name . ';
         ';
-        $use .= "use Illuminate\Http\Request;";
+        $use .= "use Illuminate\\Http\\Request;";
         if (strlen($this->yu_cfg('ctrl.parent_controller_name_space')) > 0) {
             $use .= "
         use " . $this->yu_cfg('ctrl.parent_controller_name_space') . ";
