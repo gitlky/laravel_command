@@ -158,7 +158,7 @@ class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
         \$$this->model_name->destroy(\$req->id);
         return redirect()->route('".str_replace("/","_",$this->old_path)."_list');
     }
-    
+    //批量删除
      public function batch_del(Request \$req, $this->model_name \$$this->model_name)
     {
         \$ids = json_decode(\$req->id);
