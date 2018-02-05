@@ -10,7 +10,7 @@ namespace lky_vendor\laravel_command\Command_Service;
 
 use Carbon\Carbon;
 use File;
-use Str;
+use Illuminate\Support\Str;
 class Yu_Ctrl extends Yu
 {
 
