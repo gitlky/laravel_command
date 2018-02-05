@@ -187,12 +187,12 @@ class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
             if (empty($dir)) {
                 continue;
             }
+            if($this->yu_cfg('ctrl.str2lower')){
+                $dir = Str::lower($dir);
+            }
             $path .= $dir . '/';
             if($key<1){
                 $path = $view_path.$path;
-            }
-            if($this->yu_cfg('ctrl.str2lower')){
-                $path = Str::lower($path);
             }
             if (!File::isDirectory($path)) {
                 File::makeDirectory($path, $mode = 0777);
