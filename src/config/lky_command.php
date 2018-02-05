@@ -20,5 +20,7 @@ return [
         'parent_controller'=>'YuController',
         //父级ctrl引入的namespace
         'parent_controller_name_space'=>'App\Http\Controllers\YuCtrl',
+        //模块儿是否转换为小写,例如:admin=>ADMIN
+        'str2lower'=>true,
     ]
 ];

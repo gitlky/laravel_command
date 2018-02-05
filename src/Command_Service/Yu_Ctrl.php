@@ -10,7 +10,7 @@ namespace lky_vendor\laravel_command\Command_Service;
 
 use Carbon\Carbon;
 use File;
-
+use Str;
 class Yu_Ctrl extends Yu
 {
 
@@ -26,7 +26,7 @@ class Yu_Ctrl extends Yu
         $this->blade();
         #return;
         $this->model_name = $this->ask("what's your model name");
-        $this->model_path = app_path(config('db.model_path') . '/' . $this->model_name . '.php');
+        $this->model_path = app_path($this->yu_cfg('db.model_path') . '/' . $this->model_name . '.php');
         if(!File::exists($this->model_path)){
             $this->error("Model does not exist");
             return;
@@ -75,13 +75,14 @@ class Yu_Ctrl extends Yu
         $this->line('make controller is successful');
 
         $str = " //你的备注
-    Route::group(['namespace' => 'CarouselImg','prefix' => 'carousel_img'], function () {
+    Route::group(['namespace' => '$this->ctrl_namespace','prefix' => '".Str::lower($this->file_name)."'], function () {
         Route::get('list', '$this->file_name@lists')->name('$this->file_name'_list');
         Route::get('edit', '$this->file_name@edit')->name('$this->file_name'_edit');
         Route::post('sub_edit', '$this->file_name@sub_edit')->name('$this->file_name'_sub_edit');
         Route::any('del', '$this->file_name@del')->name('$this->file_name'_del');
         Route::any('batch_del', '$this->file_name@batch_del')->name('$this->file_name'_batch_del');
-    });";
+    });
+    ";
 
         echo $str;
         #File::delete($old_path);
@@ -102,6 +103,7 @@ class Yu_Ctrl extends Yu
         ";
         }
         $str = "<?php
+        namespace $this->ctrl_namespace;
         
         /**
  * Created by lky_command.
@@ -109,8 +111,7 @@ class Yu_Ctrl extends Yu
  * Date: $date
  * Time: $time
  */
- 
-namespace $this->ctrl_namespace;
+
 $use
 class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
     const view_path = '" . str_replace("/", ".", $this->old_path) . "';
@@ -139,7 +140,7 @@ class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
             'old_data' => \$data,
             'old_id' => \$id,
         );
-        return \$this->see_view(self::view . 'Edit', \$pam);
+        return \$this->see_view(self::view . '_Edit', \$pam);
     }
     
     //插入
@@ -164,7 +165,7 @@ class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
         \$ids = json_decode(\$req->id);
         if(count(\$ids)>0){
             foreach (\$ids as \$id){
-               \$$this->model_name->destroy(\$req->id);
+               \$$this->model_name->destroy(\$id);
             }
         }
         return redirect()->route('DangJian_carousel_img_list');
@@ -191,12 +192,20 @@ class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
             if($key<1){
                 $path = $view_path.$path;
             }
+            if($this->yu_cfg('ctrl.str2lower')){
+                $path = Str::lower($path);
+            }
             if (!File::isDirectory($path)) {
                 File::makeDirectory($path, $mode = 0777);
             }
         }
-        if (!File::exists($view_path.$path.$file_name.'list.php')) {
-            File::put($view_path.$path.$file_name.'list.php',"");
+
+        if (!File::exists($path.$file_name.'_list.blade.php')) {
+            File::put($path.$file_name.'_list.blade.php',"");
+        }
+
+        if (!File::exists($path.$file_name.'_Edit.blade.php')) {
+            File::put($path.$file_name.'_Edit.blade.php',"");
         }
     }
 }
