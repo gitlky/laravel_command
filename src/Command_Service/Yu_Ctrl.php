@@ -27,10 +27,10 @@ class Yu_Ctrl extends Yu
         #return;
         $this->model_name = $this->ask("what's your model name");
         $this->model_path = app_path(config('db.model_path') . '/' . $this->model_name . '.php');
-//        if(!File::exists($model_path)){
-//            $this->error("Model does not exist");
-//            return;
-//        }
+        if(!File::exists($this->model_path)){
+            $this->error("Model does not exist");
+            return;
+        }
         $ctrl_path = app_path('Http/Controllers/' . $path);
         $ctrl_path = str_replace("\\", "/", $ctrl_path);
 
@@ -72,6 +72,18 @@ class Yu_Ctrl extends Yu
         } else {
             $this->error('file is exist');
         }
+        $this->line('make controller is successful');
+
+        $str = " //你的备注
+    Route::group(['namespace' => 'CarouselImg','prefix' => 'carousel_img'], function () {
+        Route::get('list', '$this->file_name@lists')->name('$this->file_name'_list');
+        Route::get('edit', '$this->file_name@edit')->name('$this->file_name'_edit');
+        Route::post('sub_edit', '$this->file_name@sub_edit')->name('$this->file_name'_sub_edit');
+        Route::any('del', '$this->file_name@del')->name('$this->file_name'_del');
+        Route::any('batch_del', '$this->file_name@batch_del')->name('$this->file_name'_batch_del');
+    });";
+
+        echo $str;
         #File::delete($old_path);
         return true;
     }
@@ -143,8 +155,19 @@ class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
     //删除
        public function del(Request \$req, $this->model_name \$$this->model_name)
     {
-        \$$this->model_name->find(\$req->id)->delete();
+        \$$this->model_name->destroy(\$req->id);
         return redirect()->route('".str_replace("/","_",$this->old_path)."_list');
+    }
+    
+     public function batch_del(Request \$req, $this->model_name \$$this->model_name)
+    {
+        \$ids = json_decode(\$req->id);
+        if(count(\$ids)>0){
+            foreach (\$ids as \$id){
+               \$$this->model_name->destroy(\$req->id);
+            }
+        }
+        return redirect()->route('DangJian_carousel_img_list');
     }
     
 }
