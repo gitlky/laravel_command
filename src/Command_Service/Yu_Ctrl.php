@@ -168,7 +168,7 @@ class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
                \$$this->model_name->destroy(\$id);
             }
         }
-        return redirect()->route('DangJian_carousel_img_list');
+       return redirect()->route('".str_replace("/","_",$this->old_path)."_list');
     }
     
 }
