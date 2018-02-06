@@ -10,6 +10,7 @@ namespace lky_vendor\laravel_command\Command_Service;
 use Carbon\Carbon;
 use File;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 class Yu_Ctrl extends Yu
 {
 
@@ -22,7 +23,6 @@ class Yu_Ctrl extends Yu
     {
         $path = $this->argument('path');
         $this->old_path = str_replace("\\", "/", $path);
-        $this->blade();
         #return;
         $this->model_name = $this->ask("what's your model name");
         $this->model_path = str_replace("\\",'/',str_replace('/App','',app_path($this->yu_cfg('db.model_path')) . '/' . $this->model_name . '.php'));
@@ -30,13 +30,18 @@ class Yu_Ctrl extends Yu
             $this->error("Model does not exist");
             return;
         }
+        $db = config('database.connections.mysql.database');
+        $prifx = config('database.connections.mysql.prefix');
+        $sql = "select column_name, column_comment from information_schema.columns where table_schema ='$db' and table_name = $prifx.'$path'";
+        $this->line($sql);
+
         $ctrl_path = app_path('Http/Controllers/' . $path);
         $ctrl_path = str_replace("\\", "/", $ctrl_path);
 
         if (!File::exists($ctrl_path)) {
             $this->mk_dir_write($ctrl_path);
         }
-
+        $this->blade();
     }
 
     public function mk_dir_write($path)
@@ -119,14 +124,11 @@ $use
 class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
     const view_path = '" . str_replace("/", ".", $this->old_path) . ".';
     
-    
     //列表
-    public function lists($this->model_name \$$this->model_name)
+    public function lists(Request \$req,$this->model_name \$$this->model_name)
     {
-        \$val = \$$this->model_name->paginate(self::page);
         \$kws = \$req->kws;
-        
-        \$data = \$dangjian_carousel_img
+        \$data = \$$this->model_name
            ->where('name', 'like', '%' . \$kws . '%')
            ->corp_data()
            ->paginate(\$this->page_size());
@@ -209,9 +211,9 @@ class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
                 File::makeDirectory($path, $mode = 0777);
             }
         }
-        $path = dirname(dirname(__FILE__)).'/temp/';
+        $temp_path = dirname(dirname(__FILE__)).'/temp/';
         if (!File::exists($path.$file_name.'_list.blade.php')) {
-            $add = $path . 'add.yu';
+            $add = $temp_path . 'list.yu';
             $content = File::get($add);
 
             $search = $this->file_name."_list";
@@ -231,7 +233,7 @@ class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
         }
 
         if (!File::exists($path.$file_name.'_Edit.blade.php')) {
-            $edit = $path . 'edit.yu';
+            $edit = $temp_path . 'edit.yu';
             $content = File::get($edit);
             $submit = $this->file_name."_sub_edit";
             $content = str_replace('$$submit',$submit,$content);
