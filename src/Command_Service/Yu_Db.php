@@ -21,12 +21,12 @@ class Yu_Db extends Yu
 
     public function handle()
     {
-        $this->models = $this->yu_cfg('db.model_path');
+        $this->models = str_replace("\\",'/',$this->yu_cfg('db.model_path'));
         $this->parent_model = $this->yu_cfg('db.parent_model');
         $db = config('database.connections.mysql.database');
         $sql = "select table_name from information_schema.tables where table_schema='$db' and table_type='base table';";
         $data = DB::select($sql);
-        $model_path = app_path($this->models);
+        $model_path = str_replace("/App","",app_path($this->models));
         if (!File::isDirectory($model_path)) {
             File::makeDirectory($model_path, $mode = 0777);
         }
@@ -34,8 +34,9 @@ class Yu_Db extends Yu
         $i = 0;
         foreach ($data as $d) {
             $file_name = $d->table_name;
+            $this->line($file_name);
             $file_name_for_file = str_replace(config('database.connections.mysql.prefix'),"",$file_name);
-            $file_path = app_path($this->models.'/'.$file_name_for_file.'.php');
+            $file_path = str_replace("/App","",app_path($this->models.'/'.$file_name_for_file.'.php'));
             if (!File::exists($file_path)) {
                 $sql_for_tab = "select * from information_schema.columns where table_schema = '$db' and table_name = '$file_name' ;";
                 $data_for_name = DB::select($sql_for_tab);
