@@ -155,7 +155,7 @@ class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
     }
     
     //插入
-   public function doedit(Request \$req, $this->model_name \$$this->model_name)
+   public function sub_edit(Request \$req, $this->model_name \$$this->model_name)
     {
         \$data = \$req->all();
         \$$this->model_name->updateOrCreate([
