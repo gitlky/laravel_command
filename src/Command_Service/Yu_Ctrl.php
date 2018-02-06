@@ -73,14 +73,17 @@ class Yu_Ctrl extends Yu
         }
         $this->line('make controller is successful');
 
-        $str = " //你的备注
+        $str = " 
+        
+    //你的路由备注
     Route::group(['namespace' => '$this->ctrl_namespace','prefix' => '".Str::lower($this->file_name)."'], function () {
-        Route::get('list', '$this->file_name@lists')->name('$this->file_name'_list');
-        Route::get('edit', '$this->file_name@edit')->name('$this->file_name'_edit');
-        Route::post('sub_edit', '$this->file_name@sub_edit')->name('$this->file_name'_sub_edit');
-        Route::any('del', '$this->file_name@del')->name('$this->file_name'_del');
-        Route::any('batch_del', '$this->file_name@batch_del')->name('$this->file_name'_batch_del');
+        Route::get('list', '$this->file_name@lists')->name('".$this->file_name."_list');
+        Route::get('edit', '$this->file_name@edit')->name('".$this->file_name."_edit');
+        Route::post('sub_edit', '$this->file_name@sub_edit')->name('".$this->file_name."_sub_edit');
+        Route::any('del', '$this->file_name@del')->name('".$this->file_name."_del');
+        Route::any('batch_del', '$this->file_name@batch_del')->name('".$this->file_name."_batch_del');
     });
+    
     ";
 
         echo $str;
@@ -123,7 +126,7 @@ class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
         \$pam = array(
             'data' => \$val
         );
-        return \$this->see_view(self::view . 'List', \$pam);
+        return \$this->see_view(self::view . 'List', \$pam); 
     }
     
     
