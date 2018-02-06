@@ -34,7 +34,6 @@ class Yu_Db extends Yu
         $i = 0;
         foreach ($data as $d) {
             $file_name = $d->table_name;
-            $this->line($file_name);
             $file_name_for_file = str_replace(config('database.connections.mysql.prefix'),"",$file_name);
             $file_path = str_replace("/App","",app_path($this->models.'/'.$file_name_for_file.'.php'));
             if (!File::exists($file_path)) {
