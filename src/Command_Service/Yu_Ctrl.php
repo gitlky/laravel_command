@@ -25,7 +25,7 @@ class Yu_Ctrl extends Yu
         $this->blade();
         #return;
         $this->model_name = $this->ask("what's your model name");
-        $this->model_path = app_path($this->yu_cfg('db.model_path') . '/' . $this->model_name . '.php');
+        $this->model_path = str_replace("\\",'/',str_replace('/App','',app_path($this->yu_cfg('db.model_path')) . '/' . $this->model_name . '.php'));
         if(!File::exists($this->model_path)){
             $this->error("Model does not exist");
             return;
@@ -72,11 +72,12 @@ class Yu_Ctrl extends Yu
             $this->error('file is exist');
         }
         $this->line('make controller is successful');
-
+        $name_space = explode('\\',$this->ctrl_namespace);
+        $name_space = $name_space[count($name_space)-1];
         $str = " 
         
     //你的路由备注
-    Route::group(['namespace' => '$this->ctrl_namespace','prefix' => '".Str::lower($this->file_name)."'], function () {
+    Route::group(['namespace' => '$name_space','prefix' => '".Str::lower($this->file_name)."'], function () {
         Route::get('list', '$this->file_name@lists')->name('".$this->file_name."_list');
         Route::get('edit', '$this->file_name@edit')->name('".$this->file_name."_edit');
         Route::post('sub_edit', '$this->file_name@sub_edit')->name('".$this->file_name."_sub_edit');
