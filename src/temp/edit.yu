@@ -18,7 +18,7 @@
 
 
                 <hr>
-                <input type="hidden" name="old_id" value="{{$id or ''}}">
+                 <input type="hidden" name="id" value="{{$old_data['id'] or ''}}">
                 <button type="submit" class="btn btn-default">@lang('admin.submit')</button>
                 <button type="reset" class="btn btn-default" onclick="window.history.go(-1)">@lang('admin.return')</button>
             </form>

@@ -121,7 +121,7 @@ class Yu_Ctrl extends Yu
 
 $use
 class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
-    const view_path = '" . str_replace("/", ".", $this->old_path) . ".';
+    const view_path = '".Str::lower(str_replace("/", ".", $this->old_path)).".';
     
     //列表
     public function lists(Request \$req,$this->model_name \$$this->model_name)
@@ -135,7 +135,7 @@ class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
             'data' => \$data,
             'kws' => \$kws
         );
-        return \$this->see_view(self::view . 'List', \$pam); 
+        return \$this->see_view(self::view.'_List', \$pam); 
     }
     
     
@@ -151,7 +151,7 @@ class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
             'old_data' => \$data,
             'old_id' => \$id,
         );
-        return \$this->see_view(self::view . '_Edit', \$pam);
+        return \$this->see_view(self::view.'_Edit', \$pam);
     }
     
     //插入
@@ -161,14 +161,14 @@ class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
         \$$this->model_name->updateOrCreate([
             'id' => \$req->id,
         ], \$data);
-        return redirect()->route('".str_replace("/","_",$this->old_path)."_list');
+        return redirect()->route('".$this->file_name."_list');
     }
     
     //删除
        public function del(Request \$req, $this->model_name \$$this->model_name)
     {
         \$$this->model_name->destroy(\$req->id);
-        return redirect()->route('".str_replace("/","_",$this->old_path)."_list');
+        return redirect()->route('".$this->file_name."_list');
     }
     //批量删除
      public function batch_del(Request \$req, $this->model_name \$$this->model_name)
@@ -179,7 +179,7 @@ class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
                \$$this->model_name->destroy(\$id);
             }
         }
-       return redirect()->route('".str_replace("/","_",$this->old_path)."_list');
+       return redirect()->route('".$this->file_name."_list');
     }
     
 }
@@ -211,7 +211,7 @@ class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
             }
         }
         $temp_path = dirname(dirname(__FILE__)).'/temp/';
-        if (!File::exists($path.Str::lower($file_name).'_list.blade.php')) {
+        if (!File::exists($path.Str::lower($file_name).'_List.blade.php')) {
             $add = $temp_path . 'list.yu';
             $content = File::get($add);
             $search = $this->file_name."_list";
@@ -241,7 +241,7 @@ class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
             $content = str_replace('$$del',$del,$content);
             $content = str_replace('$$th',$th,$content);
             $content = str_replace('$$td',$td,$content);
-            File::put($path.Str::lower($file_name).'_list.blade.php',$content);
+            File::put($path.Str::lower($file_name).'_List.blade.php',$content);
         }
 
         if (!File::exists($path.Str::lower($file_name).'_Edit.blade.php')) {
