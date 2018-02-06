@@ -24,6 +24,6 @@ return [
         'str2lower'=>true,
     ],
     'view'=>[
-        'not_show'=>[],
+        'not_show'=>['created_at','updated_at'],//生成界面时候不需要展示出来的字段
     ]
 ];

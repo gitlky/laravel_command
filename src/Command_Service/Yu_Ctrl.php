@@ -211,10 +211,9 @@ class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
             }
         }
         $temp_path = dirname(dirname(__FILE__)).'/temp/';
-        if (!File::exists($path.$file_name.'_list.blade.php')) {
+        if (!File::exists($path.Str::lower($file_name).'_list.blade.php')) {
             $add = $temp_path . 'list.yu';
             $content = File::get($add);
-
             $search = $this->file_name."_list";
             $add = $this->file_name."_edit";
             $batch = $this->file_name."_batch_del";
@@ -226,8 +225,14 @@ class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
                     if(in_array(Str::lower($db->d),$this->yu_cfg('view.not_show'))){
                         continue;
                     }
-                    $th.="<th>$db->d</th>";
-                    $td.="<td>{{\$d['$db->n'] or ''}}</td>";
+                    $th.=
+                        "
+<th>$db->d</th>
+";
+                    $td.=
+                        "
+<td>{{\$d['$db->n'] or ''}}</td>
+";
                 }
             }
             $content = str_replace('$$search',$search,$content);
@@ -236,10 +241,10 @@ class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
             $content = str_replace('$$del',$del,$content);
             $content = str_replace('$$th',$th,$content);
             $content = str_replace('$$td',$td,$content);
-            File::put($path.$file_name.'_list.blade.php',$content);
+            File::put($path.Str::lower($file_name).'_list.blade.php',$content);
         }
 
-        if (!File::exists($path.$file_name.'_Edit.blade.php')) {
+        if (!File::exists($path.Str::lower($file_name).'_Edit.blade.php')) {
             $edit = $temp_path . 'edit.yu';
             $content = File::get($edit);
             $div = "";
@@ -261,7 +266,7 @@ class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
             $submit = $this->file_name."_sub_edit";
             $content = str_replace('$$submit',$submit,$content);
             $content = str_replace('$$input',$div,$content);
-            File::put($path.$file_name.'_Edit.blade.php',$content);
+            File::put($path.Str::lower($file_name).'_Edit.blade.php',$content);
         }
     }
 }
