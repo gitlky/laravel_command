@@ -116,7 +116,7 @@ class Yu_Ctrl extends Yu
 
 $use
 class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
-    const view_path = '" . str_replace("/", ".", $this->old_path) . "';
+    const view_path = '" . str_replace("/", ".", $this->old_path) . ".';
     
     
     //列表
