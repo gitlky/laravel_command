@@ -15,10 +15,7 @@
             <form class="smk_edit_from" role="form" method="post" action="{{route('$$submit')}}">
 
                $$input
-                <div class="form-group">
-                    <label>@lang('dang_jian.edit.tpmc')</label>
-                    <input class="form-control" name="name" value="{{$old_data['name'] or ''}}" required type="text">
-                </div>
+
 
                 <hr>
                 <input type="hidden" name="old_id" value="{{$id or ''}}">

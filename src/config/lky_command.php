@@ -22,5 +22,8 @@ return [
         'parent_controller_name_space'=>'App\Http\Controllers\YuCtrl',
         //模块儿是否转换为小写,例如:admin=>ADMIN
         'str2lower'=>true,
+    ],
+    'view'=>[
+        'not_show'=>[],
     ]
 ];

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 class Yu_Ctrl extends Yu
 {
 
-    private $file_name, $ctrl_namespace, $model_name, $model_path, $old_path;
+    private $file_name, $ctrl_namespace, $model_name, $model_path, $old_path,$db_data;
 
     protected $signature = 'yu:ctrl {path : input where you wanna make controller}';
     protected $description = 'make controller for your project';
@@ -32,9 +32,8 @@ class Yu_Ctrl extends Yu
         }
         $db = config('database.connections.mysql.database');
         $prifx = config('database.connections.mysql.prefix');
-        $sql = "select column_name, column_comment from information_schema.columns where table_schema ='$db' and table_name = $prifx.'$path'";
-        $this->line($sql);
-
+        $sql = "select column_name as n, column_comment as d from information_schema.columns where table_schema ='$db' and table_name = '$prifx$this->model_name'";
+        $this->db_data = DB::select($sql);
         $ctrl_path = app_path('Http/Controllers/' . $path);
         $ctrl_path = str_replace("\\", "/", $ctrl_path);
 
@@ -220,23 +219,48 @@ class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
             $add = $this->file_name."_edit";
             $batch = $this->file_name."_batch_del";
             $del = $this->file_name."_del";
-
             $th = "";
-
+            $td = "";
+            if(is_array($this->db_data)){
+                foreach ($this->db_data as $db){
+                    if(in_array(Str::lower($db->d),$this->yu_cfg('view.not_show'))){
+                        continue;
+                    }
+                    $th.="<th>$db->d</th>";
+                    $td.="<td>{{\$d['$db->n'] or ''}}</td>";
+                }
+            }
             $content = str_replace('$$search',$search,$content);
             $content = str_replace('$$add',$add,$content);
             $content = str_replace('$$batch',$batch,$content);
             $content = str_replace('$$del',$del,$content);
             $content = str_replace('$$th',$th,$content);
-
+            $content = str_replace('$$td',$td,$content);
             File::put($path.$file_name.'_list.blade.php',$content);
         }
 
         if (!File::exists($path.$file_name.'_Edit.blade.php')) {
             $edit = $temp_path . 'edit.yu';
             $content = File::get($edit);
+            $div = "";
+            if(is_array($this->db_data)){
+                foreach ($this->db_data as $db){
+                    if(in_array(Str::lower($db->d),$this->yu_cfg('view.not_show'))){
+                        continue;
+                    }
+                    $div.="
+                        <!--$db->d-->
+                        <div class=\"form-group\">
+                                <label>$db->d</label>
+                                <input class=\"form-control\" name=\"$db->n\" value=\"{{\$old_data['$db->n'] or ''}}\" required type=\"text\">
+                        </div>
+                           
+                        ";
+                }
+            }
             $submit = $this->file_name."_sub_edit";
             $content = str_replace('$$submit',$submit,$content);
+            $content = str_replace('$$input',$div,$content);
             File::put($path.$file_name.'_Edit.blade.php',$content);
         }
     }
