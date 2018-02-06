@@ -151,7 +151,7 @@ class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
             'old_data' => \$data,
             'old_id' => \$id,
         );
-        return \$this->see_view(self::view.'_Edit', \$pam);
+        return \$this->see_view(self::view_path.'_Edit', \$pam);
     }
     
     //插入
