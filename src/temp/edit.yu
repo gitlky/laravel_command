@@ -1,1 +1,38 @@
-edit
+@extends('admin.admin')
+
+@section('content_title', '编辑')
+
+@section('content')
+
+<div class="col-lg-1"></div>
+<div class="col-lg-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            编辑
+        </div>
+        <!-- .panel-heading -->
+        <div class="panel-body">
+            <form class="smk_edit_from" role="form" method="post" action="{{route('$$submit')}}">
+
+               $$input
+                <div class="form-group">
+                    <label>@lang('dang_jian.edit.tpmc')</label>
+                    <input class="form-control" name="name" value="{{$old_data['name'] or ''}}" required type="text">
+                </div>
+
+                <hr>
+                <input type="hidden" name="old_id" value="{{$id or ''}}">
+                <button type="submit" class="btn btn-default">@lang('admin.submit')</button>
+                <button type="reset" class="btn btn-default" onclick="window.history.go(-1)">@lang('admin.return')</button>
+            </form>
+        </div>
+        <!-- .panel-body -->
+    </div>
+    <!-- /.panel -->
+</div>
+
+
+@smk_admin_validate
+
+
+@endsection

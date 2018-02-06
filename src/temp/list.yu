@@ -1,0 +1,74 @@
+@extends('admin.admin')
+
+@section('content_title', '列表')
+
+@section('content')
+
+<div class="col-lg-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            列表
+        </div>
+
+        <div class="panel-body">
+            <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                @smk_search({"url":"$$search","add_url": "$$add","batch_url":"$$batch"})
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table width="100%"
+                               class="table table-bordered table-hover no-footer dtr-inline"
+                               style="width: 100%;">
+                            <thead>
+                            <tr role="row">
+                                <th style="text-align: center">
+                                    @smk_check_all_box()
+                                </th>
+                                $$th
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @if(count($data))
+                            @foreach($data as $d)
+                            <tr class="gradeU odd" role="row">
+                                <td>@smk_list_check_box({"val":"{{$d['id']}}"})</td>
+                                    $$td
+                                <td style="text-align: center">
+                                    <a type="button" class="btn btn-default btn-sm" href="{{route('$$add',['id'=>$d['id']])}}">@lang('admin.edit')</a>
+                                    <a type="button" class="btn btn-danger btn-sm admin_del_btn"  onclick="del('{{$d['id']}}')">
+                                        删除
+                                    </a>
+                                </td>
+                            </tr>
+                            @endforeach
+                            @else
+                            <tr>
+                                <td colspan="14">
+                                    暂无数据
+                                </td>
+                            </tr>
+                            @endif
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        {{$data->appends(['kws'=>$kws])->render()}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function del(id) {
+        var src = '{{route('$$del')}}?id=';
+        ask('确定要删除这条数据',function () {
+            jump(src+id);
+        });
+    }
+</script>
+@endsection

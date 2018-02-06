@@ -124,8 +124,15 @@ class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
     public function lists($this->model_name \$$this->model_name)
     {
         \$val = \$$this->model_name->paginate(self::page);
+        \$kws = \$req->kws;
+        
+        \$data = \$dangjian_carousel_img
+           ->where('name', 'like', '%' . \$kws . '%')
+           ->corp_data()
+           ->paginate(\$this->page_size());
         \$pam = array(
-            'data' => \$val
+            'data' => \$data,
+            'kws' => \$kws
         );
         return \$this->see_view(self::view . 'List', \$pam); 
     }
@@ -137,7 +144,7 @@ class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
         \$id = \$req->id;
         \$data = [];
         if (\$id) {
-            \$data = $$this->model_name->find(\$id)->toArray();
+            \$data = \$$this->model_name->find(\$id)->toArray();
         }
         \$pam = array(
             'old_data' => \$data,
@@ -202,13 +209,33 @@ class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
                 File::makeDirectory($path, $mode = 0777);
             }
         }
-
+        $path = dirname(dirname(__FILE__)).'/temp/';
         if (!File::exists($path.$file_name.'_list.blade.php')) {
-            File::put($path.$file_name.'_list.blade.php',"");
+            $add = $path . 'add.yu';
+            $content = File::get($add);
+
+            $search = $this->file_name."_list";
+            $add = $this->file_name."_edit";
+            $batch = $this->file_name."_batch_del";
+            $del = $this->file_name."_del";
+
+            $th = "";
+
+            $content = str_replace('$$search',$search,$content);
+            $content = str_replace('$$add',$add,$content);
+            $content = str_replace('$$batch',$batch,$content);
+            $content = str_replace('$$del',$del,$content);
+            $content = str_replace('$$th',$th,$content);
+
+            File::put($path.$file_name.'_list.blade.php',$content);
         }
 
         if (!File::exists($path.$file_name.'_Edit.blade.php')) {
-            File::put($path.$file_name.'_Edit.blade.php',"");
+            $edit = $path . 'edit.yu';
+            $content = File::get($edit);
+            $submit = $this->file_name."_sub_edit";
+            $content = str_replace('$$submit',$submit,$content);
+            File::put($path.$file_name.'_Edit.blade.php',$content);
         }
     }
 }
