@@ -65,6 +65,7 @@ class Yu_Db extends Yu
         $carbon = Carbon::now();
         $date = $carbon->toDateString();
         $time = $carbon->toTimeString();
+        $namespace = $this->yu_cfg('db.model_path');
         $content = "<?php
 /**
  * Created by lky_command.
@@ -72,7 +73,7 @@ class Yu_Db extends Yu
  * Date: $date
  * Time: $time
  */
-namespace App\\$this->models;
+namespace $namespace;
 
 class $name extends $this->parent_model
 {
