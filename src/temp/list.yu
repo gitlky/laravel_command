@@ -12,7 +12,7 @@
 
         <div class="panel-body">
             <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-                @smk_search({"url":"{{route('$$search')}}","add_url": "{{route('$$add')}}","batch_url":"{{route('$$batch')}}"})
+                @smk_search({"url":"$$search","add_url": "$$add","batch_url":"$$batch"})
 
                 <div class="row">
                     <div class="col-sm-12">
