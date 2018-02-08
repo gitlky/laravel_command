@@ -36,7 +36,7 @@ class Yu_Db extends Yu
         foreach ($data as $d) {
             $file_name = $d->table_name;
             $file_name_for_file = str_replace(config('database.connections.mysql.prefix'),"",$file_name);
-            $file_path = str_replace("/App","",app_path($this->models.'/'.$file_name_for_file.'.php'));
+            $file_path = str_replace("/App","",str_replace("\\","/",app_path($this->models.'/'.$file_name_for_file.'.php')));
             if (!File::exists($file_path)) {
                 $sql_for_tab = "select * from information_schema.columns where table_schema = '$db' and table_name = '$file_name' ;";
                 $data_for_name = DB::select($sql_for_tab);
