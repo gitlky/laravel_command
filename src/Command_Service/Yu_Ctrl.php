@@ -158,6 +158,7 @@ class $this->file_name extends " . $this->yu_cfg('ctrl.parent_controller') . "{
    public function sub_edit(Request \$req, $this->model_name \$$this->model_name)
     {
         \$data = \$req->all();
+        \$data['corp_id'] = \$this->corp_id();
         \$$this->model_name->updateOrCreate([
             'id' => \$req->id,
         ], \$data);

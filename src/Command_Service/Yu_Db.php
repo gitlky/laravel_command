@@ -26,7 +26,8 @@ class Yu_Db extends Yu
         $db = config('database.connections.mysql.database');
         $sql = "select table_name from information_schema.tables where table_schema='$db' and table_type='base table';";
         $data = DB::select($sql);
-        $model_path = str_replace("/App","",app_path($this->models));
+        $fx = str_replace("\\","/",app_path($this->models));
+        $model_path = str_replace("/App","",$fx);
         if (!File::isDirectory($model_path)) {
             File::makeDirectory($model_path, $mode = 0777);
         }
